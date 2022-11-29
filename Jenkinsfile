@@ -45,6 +45,26 @@ pipeline{
                 }
             }
         }
+        stage("SonarQube"){
+            steps{
+                echo "====++++executing SonarQube++++===="
+                withSonarQubeEnv('SonarQube') {
+                sh 'mvn sonar:sonar'
+            }
+            }
+            post{
+                always{
+                    echo "====++++always++++===="
+                }
+                success{
+                    echo "====++++SonarQube executed successfully++++===="
+                }
+                failure{
+                    echo "====++++SonarQube execution failed++++===="
+                }
+        
+            }
+        }
         stage("Deploy"){
             steps{
                 echo "====++++executing Deploy++++===="
